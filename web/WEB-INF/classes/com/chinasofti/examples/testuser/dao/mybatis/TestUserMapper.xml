@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinasofti.examples.testuser.dao.mybatis.TestUserDao">
+
+	
+	 <!-- 查询一条记录 -->
+	<select id="findById"  resultType="TestUser">
+		SELECT id,login_name as loginName,name,password,salt,roles,register_date as registerDate FROM test_user where id=#{id}
+	</select>
+	
+	 <!-- 查询所有记录  -->
+	<select id="findAll"  resultType="TestUser">
+		SELECT id,login_name as loginName,name,password,salt,roles,register_date as registerDate FROM test_user
+	</select>
+	
+    <!-- 按条件查询  -->
+	<select id="search"  parameterType="map" resultType="TestUser">
+		SELECT id,login_name as loginName,name,password,salt,roles,register_date as registerDate FROM test_user 
+		<where>
+			<if test="loginName != null and loginName != ''">
+				login_name like CONCAT('%',#{loginName},'%')
+			</if>
+			<if test="name != null and name != ''">
+				and name like  CONCAT('%',#{name},'%')
+			</if>
+		</where>
+	</select>
+	
+	 <!-- 分页查询  -->
+	<select id="searchByPage"  parameterType="map" resultType="TestUser">
+		SELECT id,login_name as loginName,name,password,salt,roles,register_date as registerDate FROM test_user 
+		<where>
+			<if test="loginName != null and loginName != ''">
+				login_name like CONCAT('%',#{loginName},'%')
+			</if>
+			<if test="name != null and name != ''">
+				and name like  CONCAT('%',#{name},'%')
+			</if>
+		</where>
+	</select>
+	
+	
+	 <!-- 插入用户  -->
+	<insert id="save" parameterType="TestUser" >
+		insert into test_user (
+		id,login_name,name,password,salt,roles,register_date)
+		values (
+		#{id},#{loginName}, #{name}, #{password}, #{salt},#{roles}, #{registerDate})
+	</insert>
+	
+	<!-- 删除用户 -->
+	<delete id="delete" >
+	     delete from test_user where id=#{id}
+	</delete>
+	
+	<!-- 修改用户 -->
+	<update id="update" parameterType="TestUser">
+	    UPDATE test_user SET
+	      login_name = #{loginName},
+	      name = #{name},
+	      password = #{password},
+	      salt = #{salt},
+	      roles = #{roles},
+	      register_date = #{registerDate}
+	    WHERE id = #{id}
+  </update>
+  
+</mapper> 

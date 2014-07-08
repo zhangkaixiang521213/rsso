@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinasofti.oauth2.server.dao.mybatis.Toauth2ClientDao">
+
+	<!-- 查询一条记录 -->
+	<select id="findOauthByUserId"  resultType="com.chinasofti.oauth2.server.domain.Toauth2Client">
+		SELECT  user_id as userId,auth_time as authTime,access_token as accessToken,client_id as clientId,auth_code as authCode FROM t_oauth2_client WHERE user_id=#{userId}
+	</select>
+	<!-- 查询一条记录 -->
+	<select id="findOauthByAccessToken"  resultType="com.chinasofti.oauth2.server.domain.Toauth2Client">
+		SELECT  user_id as userId,auth_time as authTime,access_token as accessToken,client_id as clientId,auth_code as authCode FROM t_oauth2_client WHERE access_token=#{accessToken}
+	</select>
+	<!-- 查询一条记录 -->
+	<select id="findOauthByAuthCode"  resultType="com.chinasofti.oauth2.server.domain.Toauth2Client">
+		SELECT  user_id as userId,auth_time as authTime,access_token as accessToken,client_id as clientId,auth_code as authCode FROM t_oauth2_client WHERE auth_code=#{authCode}
+	</select>
+	
+	<!-- 插入记录  -->
+	<insert id="save" parameterType="com.chinasofti.oauth2.server.domain.Toauth2Client" >
+		insert into t_oauth2_client (
+		user_id,auth_code,client_id,client_secret)
+		values (
+		#{userId},#{authCode},#{clientId},#{clientSecret})
+	</insert>
+	
+	<!-- 修改用户 -->
+	<update id="update" parameterType="map">
+	    UPDATE t_oauth2_client SET
+	      access_token = #{accessToken}
+	    WHERE auth_code = #{authCode}
+  </update>
+  
+  <!-- 删除记录 -->
+	<delete id="delete" >
+	     delete from t_oauth2_client where access_token=#{accessToken}
+	</delete>
+	
+</mapper> 

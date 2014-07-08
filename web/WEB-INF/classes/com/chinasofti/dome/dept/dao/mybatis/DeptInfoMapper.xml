@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chinasofti.dome.dept.dao.mybatis.DeptInfoDao">
+  <!--查询一条记录-->
+  <select id="findById" resultType="DeptInfo">SELECT ID AS id,NAME AS namep,LEVEL AS level,DESCP AS descp FROM dept WHERE ID=#{id}</select>
+  <!--查询所有记录-->
+  <select id="findAll" resultType="DeptInfo">SELECT ID AS id,NAME AS namep,LEVEL AS level,DESCP AS descp FROM dept</select>
+  <!--按条件查询-->
+  <select id="search" parameterType="map" resultType="DeptInfo">SELECT ID AS id,NAME AS namep,LEVEL AS level,DESCP AS descp FROM dept
+    <where>
+      <if test="namep != null and namep != ''">NAME LIKE CONCAT('%',#{namep},'%')</if>
+      <if test="descp != null and descp != ''">AND DESCP LIKE CONCAT('%',#{descp},'%')</if>
+    </where>
+  </select>
+  <!--分页查询-->
+  <select id="searchByPage" parameterType="map" resultType="DeptInfo">SELECT ID AS id,NAME AS namep,LEVEL AS level,DESCP AS descp FROM dept
+    <where>
+      <if test="namep != null and namep != ''">NAME LIKE CONCAT('%',#{namep},'%')</if>
+      <if test="descp != null and descp != ''">AND DESCP LIKE CONCAT('%',#{descp},'%')</if>
+    </where>
+  </select>
+  <!--插入记录-->
+  <insert id="save" parameterType="DeptInfo">INSERT INTO dept (ID,NAME,LEVEL,DESCP) VALUES (#{id},#{namep},#{level},#{descp})</insert>
+  <!--删除记录-->
+  <delete id="delete">DELETE FROM dept WHERE ID=#{id}</delete>
+  <!--修改记录-->
+  <update id="update" parameterType="DeptInfo">UPDATE dept SET ID=#{id},NAME=#{namep},LEVEL=#{level},DESCP=#{descp} WHERE ID=#{id}</update>
+</mapper>
